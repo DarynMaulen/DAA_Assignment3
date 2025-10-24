@@ -75,6 +75,11 @@ public class MSTRunner {
             AlgoOut kOut = buildAlgoOut(k.edges(), k.weight(), k.getMetrics(), labels);
             AlgoOut pOut = buildAlgoOut(p.edges(), p.weight(), p.getMetrics(), labels);
 
+            boolean kValid = MSTValidator.validate(G, k.edges(), k.weight());
+            boolean pValid = MSTValidator.validate(G, p.edges(), p.weight());
+
+            System.out.printf("  [VALIDATION] Kruskal valid: %b | Prim valid: %b%n", kValid, pValid);
+
             // Compare MST weights
             if (Math.abs(k.weight() - p.weight()) > 1e-9) {
                 System.err.printf("  WARNING: MST weights differ for Graph %d: Kruskal=%.6f, Prim=%.6f%n",
