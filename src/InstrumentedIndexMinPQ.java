@@ -1,8 +1,7 @@
 import edu.princeton.cs.algorithms.IndexMinPQ;
 
-/**
- * Wrapper around IndexMinPQ to count PQ operations via Metrics.
- */
+// Instrumented Index Minimum Priority Queue that tracks queue operations.
+// Wraps Princeton's IndexMinPQ to collect metrics for performance analysis.
 public class InstrumentedIndexMinPQ<Key extends Comparable<Key>> {
     private final IndexMinPQ<Key> pq;
     private final Metrics metrics;

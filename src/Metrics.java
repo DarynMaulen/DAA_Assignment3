@@ -1,10 +1,9 @@
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-/**
- * Simple metrics container: counts operations and measures elapsed time.
- * Provides human-readable string and JSON export.
- */
+// Metrics collection utility for tracking algorithm performance and operations.
+// Counts comparisons, union-find operations, PQ operations, and execution time.
+// Provides JSON serialization for result reporting.
 public class Metrics {
     private final String algorithm;
     private long comparisons = 0;
@@ -18,45 +17,90 @@ public class Metrics {
     private long pqDecreaseKeys = 0;
 
     private long startNano = 0;
-    private long elapsedMs = 0;
+    private double elapsedMs = 0.0;
 
     public Metrics(String algorithm) {
         this.algorithm = algorithm;
     }
 
     // timing
-    public void startTimer() { startNano = System.nanoTime(); }
+    public void startTimer() {
+        startNano = System.nanoTime();
+    }
+
     public void stopTimer() {
         if (startNano != 0) {
-            elapsedMs = (System.nanoTime() - startNano) / 1_000_000L;
+            elapsedMs = (System.nanoTime() - startNano) / 1_000_000.0;
             startNano = 0;
         }
     }
 
     // incrementers
-    public void incComparisons() { comparisons++; }
+    public void incComparisons() {
+        comparisons++;
+    }
 
-    public void incFinds() { finds++; }
+    public void incFinds() {
+        finds++;
+    }
 
-    public void incUnions() { unions++; }
+    public void incUnions() {
+        unions++;
+    }
 
-    public void incEdgeInspected() { edgesInspected++; }
+    public void incEdgeInspected() {
+        edgesInspected++;
+    }
 
     // PQ counters
-    public void incPqInserts() { pqInserts++; }
-    public void incPqDelMins() { pqDelMins++; }
-    public void incPqDecreaseKeys() { pqDecreaseKeys++; }
+    public void incPqInserts() {
+        pqInserts++;
+    }
+
+    public void incPqDelMins() {
+        pqDelMins++;
+    }
+
+    public void incPqDecreaseKeys() {
+        pqDecreaseKeys++;
+    }
 
     // getters
-    public long getComparisons() { return comparisons; }
-    public long getFinds() { return finds; }
-    public long getUnions() { return unions; }
-    public long getEdgesInspected() { return edgesInspected; }
-    public long getPqInserts() { return pqInserts; }
-    public long getPqDelMins() { return pqDelMins; }
-    public long getPqDecreaseKeys() { return pqDecreaseKeys; }
-    public long getElapsedMs() { return elapsedMs; }
-    public String getAlgorithm() { return algorithm; }
+    public long getComparisons() {
+        return comparisons;
+    }
+
+    public long getFinds() {
+        return finds;
+    }
+
+    public long getUnions() {
+        return unions;
+    }
+
+    public long getEdgesInspected() {
+        return edgesInspected;
+    }
+
+    public long getPqInserts() {
+        return pqInserts;
+    }
+
+    public long getPqDelMins() {
+        return pqDelMins;
+    }
+
+    public long getPqDecreaseKeys() {
+        return pqDecreaseKeys;
+    }
+
+    public double getElapsedMs() {
+        return elapsedMs;
+    }
+
+    public String getAlgorithm() {
+        return algorithm;
+    }
 
     @Override
     public String toString() {
@@ -86,7 +130,7 @@ public class Metrics {
     // helper structure for JSON serialization
     private static class JsonOut {
         String algorithm;
-        long timeMs;
+        double timeMs;
         long comparisons;
         long finds;
         long unions;
