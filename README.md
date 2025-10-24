@@ -17,6 +17,8 @@ The input file *data/graphs.json* contains three graphs:
 
 + V = 5, E = 6 (nodes A...E)
 
+![](2025-10-24_19-45-01.png)
+
 2.Graph 2 — Medium
 
 + id: 2
@@ -25,6 +27,8 @@ The input file *data/graphs.json* contains three graphs:
 
 + V = 12, E = 21 (nodes A...L)
 
+![](2025-10-24_19-45-24.png)
+
 3.Graph 3 — Large
 
 + id: 3
@@ -32,6 +36,8 @@ The input file *data/graphs.json* contains three graphs:
 + description: Large graph (V=24, E=47)
 
 + V = 24, E = 47 (nodes A...X)
+
+![](2025-10-24_19-45-39.png)
 
 ### Results
 
@@ -45,6 +51,8 @@ All metrics below are taken from the program output JSON produced by the runner.
 | medium_input  | Prim      | 12 | 22 |  0.0304  |         22  |     0 |      0 |        12 |        12 |              6 |             44 | 16.00    |
 | large_input   | Kruskal   | 24 | 50 |  0.1049  |        222  |    50 |     23 |         0 |         0 |              0 |             25 | 33.00    |
 | large_input   | Prim      | 24 | 50 |  0.0550  |         50  |     0 |      0 |        24 |        24 |             12 |            100 | 33.00    |
+
+![](operations_grouped.png)
 
 **Correctness check**: total MST cost reported by both algorithms matches for each graph
 
@@ -94,3 +102,4 @@ GeeksforGeeks
 
 [“Difference between Prim’s and Kruskal’s algorithm for MST”, GeeksforGeeks — article summarizing approach, data-structures and complexity trade-offs,Arghadip Chakraborty 12 Jul, 2025.
 ](https://www.geeksforgeeks.org/dsa/difference-between-prims-and-kruskals-algorithm-for-mst/)
+
