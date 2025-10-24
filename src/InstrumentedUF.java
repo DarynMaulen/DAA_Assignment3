@@ -1,8 +1,7 @@
 import edu.princeton.cs.algorithms.UF;
 
-/**
- * Wrapper around Princeton's UF to count find/union operations via Metrics.
- */
+// Instrumented Union-Find data structure that tracks find and union operations.
+// Wraps Princeton's UF implementation to collect metrics for algorithm analysis.
 public class InstrumentedUF {
     private final UF uf;
     private final Metrics metrics;

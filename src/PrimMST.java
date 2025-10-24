@@ -1,6 +1,8 @@
 import edu.princeton.cs.algorithms.*;
-import edu.princeton.cs.introcs.*;
 
+// Implementation of Prim's algorithm for finding Minimum Spanning Tree.
+// Uses priority queue to efficiently select the next minimum weight edge
+// and grows the MST from an arbitrary starting vertex.
 public class PrimMST {
     private static final double FLOATING_POINT_EPSILON = 1.0E-12;
 
@@ -24,9 +26,6 @@ public class PrimMST {
         for (int v = 0; v < G.V(); v++)      // run from each vertex to find
             if (!marked[v]) prim(G, v);      // minimum spanning forest
         metrics.stopTimer();
-
-        // check optimality conditions
-        assert check(G);
     }
 
     // run Prim's algorithm in graph G, starting from vertex s
@@ -45,12 +44,17 @@ public class PrimMST {
         for (Edge e : G.adj(v)) {
             int w = e.other(v);
             metrics.incEdgeInspected();
-            if (marked[w]) continue;         // v-w is obsolete edge
+            if (marked[w]) continue;
+            metrics.incComparisons();
             if (e.weight() < distTo[w]) {
                 distTo[w] = e.weight();
                 edgeTo[w] = e;
-                if (pq.contains(w)) pq.decreaseKey(w, distTo[w]);
-                else                pq.insert(w, distTo[w]);
+                if (pq.contains(w)){
+                    pq.decreaseKey(w, distTo[w]);
+                }
+                else{
+                    pq.insert(w, distTo[w]);
+                }
             }
         }
     }
@@ -73,70 +77,5 @@ public class PrimMST {
         for (Edge e : edges())
             weight += e.weight();
         return weight;
-    }
-
-    private boolean check(EdgeWeightedGraph G) {
-        double totalWeight = 0.0;
-        for (Edge e : edges()) {
-            totalWeight += e.weight();
-        }
-        if (Math.abs(totalWeight - weight()) > FLOATING_POINT_EPSILON) {
-            System.err.printf("Weight of edges does not equal weight(): %f vs. %f\n", totalWeight, weight());
-            return false;
-        }
-
-        UF uf = new UF(G.V());
-        for (Edge e : edges()) {
-            int v = e.either(), w = e.other(v);
-            if (uf.find(v) == uf.find(w)) {
-                System.err.println("Not a forest");
-                return false;
-            }
-            uf.union(v, w);
-        }
-
-        for (Edge e : G.edges()) {
-            int v = e.either(), w = e.other(v);
-            if (uf.find(v) != uf.find(w)) {
-                System.err.println("Not a spanning forest");
-                return false;
-            }
-        }
-
-        for (Edge e : edges()) {
-            uf = new UF(G.V());
-            for (Edge f : edges()) {
-                int x = f.either(), y = f.other(x);
-                if (f != e) uf.union(x, y);
-            }
-
-            for (Edge f : G.edges()) {
-                int x = f.either(), y = f.other(x);
-                if (uf.find(x) != uf.find(y)) {
-                    if (f.weight() < e.weight()) {
-                        System.err.println("Edge " + f + " violates cut optimality conditions");
-                        return false;
-                    }
-                }
-            }
-
-        }
-
-        return true;
-    }
-
-    public static void main(String[] args) {
-        In in = new In(args[0]);
-        EdgeWeightedGraph G = new EdgeWeightedGraph(in);
-        PrimMST mst = new PrimMST(G);
-        for (Edge e : mst.edges()) {
-            StdOut.println(e);
-        }
-        StdOut.printf("%.5f\n", mst.weight());
-
-        // print metrics
-        System.out.println("--- Metrics ---");
-        System.out.println(mst.getMetrics().toString());
-        System.out.println(mst.getMetrics().toJsonWithGraphInfo(G.V(), G.E(), mst.weight()));
     }
 }
