@@ -9,8 +9,5 @@
         <module name="daa_assignment3" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="daa_assignment3" target="11" />
-    </bytecodeTargetLevel>
   </component>
 </project>
